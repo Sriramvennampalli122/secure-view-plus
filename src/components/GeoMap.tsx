@@ -1,5 +1,5 @@
 import { useEffect, useRef, useMemo } from "react";
-import { MapContainer, TileLayer, CircleMarker, Polyline, Tooltip, useMap } from "react-leaflet";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import type { ThreatData } from "@/data/mockThreats";
 
@@ -14,18 +14,8 @@ const severityColors: Record<string, string> = {
   low: '#38b764',
 };
 
-const severityRadius: Record<string, number> = {
-  critical: 8,
-  high: 6,
-  medium: 5,
-  low: 4,
-};
-
-// Curved line helper: generate arc points between two coords
 function curvedPoints(from: [number, number], to: [number, number], segments = 30): [number, number][] {
   const points: [number, number][] = [];
-  const midLat = (from[0] + to[0]) / 2;
-  const midLng = (from[1] + to[1]) / 2;
   const dist = Math.sqrt(Math.pow(from[0] - to[0], 2) + Math.pow(from[1] - to[1], 2));
   const arcHeight = dist * 0.3;
 
@@ -38,19 +28,13 @@ function curvedPoints(from: [number, number], to: [number, number], segments = 3
   return points;
 }
 
-// Component to animate the map view
-function MapUpdater() {
-  const map = useMap();
-  useEffect(() => {
-    map.invalidateSize();
-  }, [map]);
-  return null;
-}
-
 const GeoMap = ({ threats }: GeoMapProps) => {
+  const mapRef = useRef<L.Map | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const layerRef = useRef<L.LayerGroup | null>(null);
+
   const displayThreats = useMemo(() => threats.slice(0, 25), [threats]);
 
-  // Group attacks by origin for aggregated markers
   const attackOrigins = useMemo(() => {
     const origins: Record<string, { coords: [number, number]; count: number; maxSeverity: string; country: string }> = {};
     const severityOrder = { critical: 0, high: 1, medium: 2, low: 3 };
@@ -67,6 +51,88 @@ const GeoMap = ({ threats }: GeoMapProps) => {
     return Object.values(origins);
   }, [displayThreats]);
 
+  // Initialize map once
+  useEffect(() => {
+    if (!containerRef.current || mapRef.current) return;
+
+    const map = L.map(containerRef.current, {
+      center: [25, 10],
+      zoom: 2,
+      minZoom: 2,
+      maxZoom: 6,
+      scrollWheelZoom: true,
+      attributionControl: false,
+    });
+
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png").addTo(map);
+
+    layerRef.current = L.layerGroup().addTo(map);
+    mapRef.current = map;
+
+    return () => {
+      map.remove();
+      mapRef.current = null;
+    };
+  }, []);
+
+  // Update markers/lines when threats change
+  useEffect(() => {
+    if (!layerRef.current) return;
+    layerRef.current.clearLayers();
+
+    // Attack arc lines
+    displayThreats.forEach((t) => {
+      const points = curvedPoints(t.attackerCoords, t.targetCoords);
+      L.polyline(points, {
+        color: severityColors[t.severity],
+        weight: t.severity === 'critical' ? 2.5 : 1.5,
+        opacity: 0.5,
+        dashArray: '6 4',
+      }).addTo(layerRef.current!);
+    });
+
+    // Origin markers
+    attackOrigins.forEach((origin) => {
+      const marker = L.circleMarker(origin.coords, {
+        radius: Math.min(origin.count * 3 + 5, 20),
+        color: severityColors[origin.maxSeverity],
+        fillColor: severityColors[origin.maxSeverity],
+        fillOpacity: 0.25,
+        weight: 2,
+        opacity: 0.8,
+      }).addTo(layerRef.current!);
+
+      marker.bindTooltip(
+        `<div style="font-family: JetBrains Mono, monospace; font-size: 11px; color: #e0e8f0;">
+          <div style="font-weight: bold;">${origin.country}</div>
+          <div>Attacks: ${origin.count}</div>
+          <div>Max Severity: <span style="color: ${severityColors[origin.maxSeverity]}; text-transform: uppercase; font-weight: bold;">${origin.maxSeverity}</span></div>
+        </div>`,
+        { className: 'cyber-tooltip' }
+      );
+    });
+
+    // Target markers
+    displayThreats.forEach((t) => {
+      const marker = L.circleMarker(t.targetCoords, {
+        radius: 3,
+        color: '#00f0ff',
+        fillColor: '#00f0ff',
+        fillOpacity: 0.6,
+        weight: 1,
+      }).addTo(layerRef.current!);
+
+      marker.bindTooltip(
+        `<div style="font-family: JetBrains Mono, monospace; font-size: 11px; color: #e0e8f0;">
+          <div>Target: ${t.targetIp}</div>
+          <div>${t.targetCountry} · Port ${t.port}</div>
+          <div>Type: ${t.attackType}</div>
+        </div>`,
+        { className: 'cyber-tooltip' }
+      );
+    });
+  }, [displayThreats, attackOrigins]);
+
   return (
     <div className="cyber-card overflow-hidden relative">
       <div className="flex items-center justify-between p-4 pb-0">
@@ -80,95 +146,11 @@ const GeoMap = ({ threats }: GeoMapProps) => {
           ))}
         </div>
       </div>
-
-      <div className="h-[400px] relative" style={{ zIndex: 1 }}>
-        <MapContainer
-          center={[25, 10]}
-          zoom={2}
-          minZoom={2}
-          maxZoom={6}
-          scrollWheelZoom={true}
-          className="h-full w-full"
-          style={{
-            background: 'hsl(222, 47%, 8%)',
-            borderRadius: '0 0 0.75rem 0.75rem',
-          }}
-          attributionControl={false}
-        >
-          <MapUpdater />
-          <TileLayer
-            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-          />
-
-          {/* Attack arc lines */}
-          {displayThreats.map((t) => {
-            const points = curvedPoints(t.attackerCoords, t.targetCoords);
-            return (
-              <Polyline
-                key={`line-${t.id}`}
-                positions={points}
-                pathOptions={{
-                  color: severityColors[t.severity],
-                  weight: t.severity === 'critical' ? 2.5 : 1.5,
-                  opacity: 0.5,
-                  dashArray: '6 4',
-                }}
-              />
-            );
-          })}
-
-          {/* Origin markers */}
-          {attackOrigins.map((origin) => (
-            <CircleMarker
-              key={`origin-${origin.country}`}
-              center={origin.coords}
-              radius={Math.min(origin.count * 3 + 5, 20)}
-              pathOptions={{
-                color: severityColors[origin.maxSeverity],
-                fillColor: severityColors[origin.maxSeverity],
-                fillOpacity: 0.25,
-                weight: 2,
-                opacity: 0.8,
-              }}
-            >
-              <Tooltip
-                direction="top"
-                className="cyber-tooltip"
-                permanent={false}
-              >
-                <div className="text-xs space-y-0.5" style={{ fontFamily: 'JetBrains Mono, monospace', color: '#e0e8f0', background: 'transparent' }}>
-                  <div className="font-bold">{origin.country}</div>
-                  <div>Attacks: {origin.count}</div>
-                  <div>Max Severity: <span style={{ color: severityColors[origin.maxSeverity], textTransform: 'uppercase', fontWeight: 'bold' }}>{origin.maxSeverity}</span></div>
-                </div>
-              </Tooltip>
-            </CircleMarker>
-          ))}
-
-          {/* Target markers (cyan dots) */}
-          {displayThreats.map((t) => (
-            <CircleMarker
-              key={`target-${t.id}`}
-              center={t.targetCoords}
-              radius={3}
-              pathOptions={{
-                color: '#00f0ff',
-                fillColor: '#00f0ff',
-                fillOpacity: 0.6,
-                weight: 1,
-              }}
-            >
-              <Tooltip direction="top" className="cyber-tooltip">
-                <div className="text-xs" style={{ fontFamily: 'JetBrains Mono, monospace', color: '#e0e8f0' }}>
-                  <div>Target: {t.targetIp}</div>
-                  <div>{t.targetCountry} · Port {t.port}</div>
-                  <div>Type: {t.attackType}</div>
-                </div>
-              </Tooltip>
-            </CircleMarker>
-          ))}
-        </MapContainer>
-      </div>
+      <div
+        ref={containerRef}
+        className="h-[400px]"
+        style={{ zIndex: 1, background: 'hsl(222, 47%, 8%)', borderRadius: '0 0 0.75rem 0.75rem' }}
+      />
     </div>
   );
 };
