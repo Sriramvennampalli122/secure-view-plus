@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { History, Database, ChevronDown, Clock, Globe, Shield } from "lucide-react";
+import { History, Database, ChevronDown, Clock, Globe, Shield, MapPin } from "lucide-react";
 import type { ThreatData } from "@/data/mockThreats";
 
 interface AttackHistoryProps {
@@ -146,6 +146,16 @@ const AttackHistory = ({ threats }: AttackHistoryProps) => {
                     <Shield className="w-3 h-3" />
                     <span className="font-mono">:{t.port}</span>
                   </div>
+
+                  <a
+                    href={`https://www.google.com/maps?q=${t.attackerCoords[0]},${t.attackerCoords[1]}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hidden group-hover:inline-flex items-center gap-0.5 text-primary hover:text-primary/80 transition-colors shrink-0"
+                    title="View on Google Maps"
+                  >
+                    <MapPin className="w-3 h-3" />
+                  </a>
 
                   <span className="text-[10px] text-muted-foreground font-mono shrink-0">
                     {new Date(t.timestamp).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })}

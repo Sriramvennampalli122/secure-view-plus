@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Search, Filter, ArrowUpDown } from "lucide-react";
+import { Search, Filter, ArrowUpDown, MapPin } from "lucide-react";
 import type { ThreatData } from "@/data/mockThreats";
 
 interface ThreatTableProps {
@@ -76,6 +76,7 @@ const ThreatTable = ({ threats }: ThreatTableProps) => {
               <th className="text-left py-2 px-2 font-medium">Type</th>
               <th className="text-left py-2 px-2 font-medium">Device</th>
               <th className="text-left py-2 px-2 font-medium">Country</th>
+              <th className="text-left py-2 px-2 font-medium">Location</th>
               <th className="text-left py-2 px-2 font-medium">Severity</th>
               <th className="text-left py-2 px-2 font-medium">Time</th>
             </tr>
@@ -89,6 +90,18 @@ const ThreatTable = ({ threats }: ThreatTableProps) => {
                 <td className="py-2 px-2">{t.attackType}</td>
                 <td className="py-2 px-2 text-muted-foreground">{t.device}</td>
                 <td className="py-2 px-2">{t.country}</td>
+                <td className="py-2 px-2">
+                  <a
+                    href={`https://www.google.com/maps?q=${t.attackerCoords[0]},${t.attackerCoords[1]}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-primary hover:text-primary/80 transition-colors"
+                    title="View on Google Maps"
+                  >
+                    <MapPin className="w-3 h-3" />
+                    <span className="font-mono text-[10px]">{t.attackerCoords[0].toFixed(1)}, {t.attackerCoords[1].toFixed(1)}</span>
+                  </a>
+                </td>
                 <td className="py-2 px-2">
                   <span className={`severity-${t.severity} font-bold uppercase text-[10px] px-1.5 py-0.5 rounded bg-muted`}>
                     {t.severity}
