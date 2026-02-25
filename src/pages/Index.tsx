@@ -14,6 +14,7 @@ import ImageScannerPanel from "@/components/panels/ImageScannerPanel";
 import BarcodeScannerPanel from "@/components/panels/BarcodeScannerPanel";
 import StatsPanel from "@/components/panels/StatsPanel";
 import SettingsPanel from "@/components/panels/SettingsPanel";
+import NmapScannerPanel from "@/components/panels/NmapScannerPanel";
 import { mockThreats, generateThreat, COUNTRIES } from "@/data/mockThreats";
 import type { ThreatData } from "@/data/mockThreats";
 import { useNavigate } from "react-router-dom";
@@ -57,6 +58,7 @@ const Index = () => {
     'rest-api': <RestApiPanel />,
     'image-scan': <ImageScannerPanel />,
     barcode: <BarcodeScannerPanel />,
+    nmap: <NmapScannerPanel />,
     stats: <StatsPanel threats={filteredThreats} />,
     settings: <SettingsPanel />,
   };
