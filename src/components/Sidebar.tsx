@@ -1,4 +1,4 @@
-import { Upload, Radio, Globe, ScanLine, QrCode, BarChart3, Settings, Key, Brain, ShieldCheck } from "lucide-react";
+import { Upload, Radio, Globe, ScanLine, QrCode, BarChart3, Settings, Key, Brain, ShieldCheck, Radar } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 interface SidebarProps {
@@ -12,6 +12,7 @@ const panelItems = [
   { id: 'rest-api', label: 'REST API', icon: Globe },
   { id: 'image-scan', label: 'Image Scan', icon: ScanLine },
   { id: 'barcode', label: 'Barcode', icon: QrCode },
+  { id: 'nmap', label: 'Nmap', icon: Radar },
   { id: 'stats', label: 'Statistics', icon: BarChart3 },
   { id: 'settings', label: 'Settings', icon: Settings },
 ];
