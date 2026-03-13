@@ -69,7 +69,7 @@ const Index = () => {
     barcode: <BarcodeScannerPanel />,
     nmap: <NmapScannerPanel />,
     stats: <StatsPanel threats={filteredThreats} />,
-    settings: <SettingsPanel />,
+    settings: <SettingsPanel alertsEnabled={alertsEnabled} onAlertsEnabledChange={setAlertsEnabled} />,
     'ip-agent': <IpAgentPanel />,
   };
 
