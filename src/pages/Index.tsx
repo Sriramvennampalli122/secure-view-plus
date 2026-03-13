@@ -29,6 +29,7 @@ const Index = () => {
   const [activePanel, setActivePanel] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("all");
   const [countryDropdownOpen, setCountryDropdownOpen] = useState(false);
+  const [alertsEnabled, setAlertsEnabled] = useState(true);
   const navigate = useNavigate();
 
   // Simulate live incoming threats
