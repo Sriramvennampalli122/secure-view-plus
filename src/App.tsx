@@ -22,6 +22,7 @@ import StatsPage from "./pages/StatsPage";
 import SettingsPage from "./pages/SettingsPage";
 import IpAgentPage from "./pages/IpAgentPage";
 import SecurityToolPage from "./pages/SecurityToolPage";
+import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
