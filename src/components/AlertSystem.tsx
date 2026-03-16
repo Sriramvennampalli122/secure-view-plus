@@ -31,7 +31,7 @@ const AlertSystem = ({ threats }: AlertSystemProps) => {
     if (threats.length === 0) return;
     const latest = threats[0];
     if (seenIds.has(latest.id)) return;
-    if (latest.severity !== 'critical' && latest.severity !== 'high') {
+    if (!severityConfig[latest.severity as keyof typeof severityConfig]) {
       setSeenIds(prev => new Set(prev).add(latest.id));
       return;
     }
