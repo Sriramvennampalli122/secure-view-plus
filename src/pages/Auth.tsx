@@ -22,17 +22,28 @@ const Auth = () => {
 
   if (user) return <Navigate to="/" replace />;
 
+  const [forgotMode, setForgotMode] = useState(false);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !password) return;
+    if (!email) return;
     setSubmitting(true);
 
     try {
-      if (isLogin) {
+      if (forgotMode) {
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: `${window.location.origin}/reset-password`,
+        });
+        if (error) throw error;
+        toast.success("Check your email for a password reset link");
+        setForgotMode(false);
+      } else if (isLogin) {
+        if (!password) return;
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
         toast.success("Signed in successfully");
       } else {
+        if (!password) return;
         const { error } = await supabase.auth.signUp({
           email,
           password,
