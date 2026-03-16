@@ -71,7 +71,7 @@ const Auth = () => {
             Cyber Threat <span className="text-primary">Intelligence</span>
           </h1>
           <p className="text-sm text-muted-foreground">
-            {isLogin ? "Sign in to access the dashboard" : "Create an account to get started"}
+            {forgotMode ? "Enter your email to reset your password" : isLogin ? "Sign in to access the dashboard" : "Create an account to get started"}
           </p>
         </div>
 
