@@ -11,6 +11,7 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [forgotMode, setForgotMode] = useState(false);
 
   if (loading) {
     return (
@@ -21,8 +22,6 @@ const Auth = () => {
   }
 
   if (user) return <Navigate to="/" replace />;
-
-  const [forgotMode, setForgotMode] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
