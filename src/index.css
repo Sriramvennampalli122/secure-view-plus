@@ -109,8 +109,9 @@
   }
 
   .cyber-card:hover {
-    border-color: hsl(var(--cyber-cyan) / 0.3);
-    box-shadow: 0 4px 24px hsl(222 47% 4% / 0.5), 0 0 30px hsl(var(--cyber-cyan) / 0.08);
+    border-color: hsl(var(--cyber-cyan) / 0.35);
+    box-shadow: 0 8px 40px hsl(220 50% 3% / 0.7), 0 0 40px hsl(var(--cyber-cyan) / 0.08), 0 0 80px hsl(var(--cyber-purple) / 0.04);
+    transform: translateY(-1px);
   }
 
   .cyber-glow-text {
