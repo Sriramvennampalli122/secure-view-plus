@@ -15,6 +15,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ["Inter", "system-ui", "sans-serif"],
+        heading: ["Space Grotesk", "system-ui", "sans-serif"],
         mono: ["JetBrains Mono", "monospace"],
       },
       colors: {
@@ -64,6 +65,7 @@ export default {
         cyber: {
           cyan: "hsl(var(--cyber-cyan))",
           blue: "hsl(var(--cyber-blue))",
+          purple: "hsl(var(--cyber-purple))",
           red: "hsl(var(--cyber-red))",
           green: "hsl(var(--cyber-green))",
           yellow: "hsl(var(--cyber-yellow))",
