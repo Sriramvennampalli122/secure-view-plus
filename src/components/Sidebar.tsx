@@ -69,7 +69,7 @@ const Sidebar = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full rounded-md text-xs py-1.5 pl-7 pr-2 focus:outline-none focus:ring-1"
-            style={{ background: '#2d1b6930', border: '1px solid #4c1d9540', color: '#f5f3ff', focusRingColor: '#7c3aed' }}
+            style={{ background: '#2d1b6930', border: '1px solid #4c1d9540', color: '#f5f3ff' }}
           />
         </div>
       </div>
