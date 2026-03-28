@@ -38,13 +38,13 @@ const TopNav = () => {
       <div className="flex items-center gap-3 text-xs">
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg border" style={{ background: '#4c1d9540', borderColor: '#4c1d9540' }}>
           <Activity className="w-3.5 h-3.5 text-primary" />
-          <span style={{ color: '#a78bfa' }}>Cloud</span>
+          <span style={{ color: '#c4b5fd' }}>Cloud</span>
           <span className="text-cyber-green font-medium">Connected</span>
         </div>
         <button
           onClick={signOut}
           className="flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-colors hover:text-destructive"
-          style={{ background: '#4c1d9540', borderColor: '#4c1d9540', color: '#a78bfa' }}
+          style={{ background: '#4c1d9540', borderColor: '#4c1d9540', color: '#c4b5fd' }}
         >
           <LogOut className="w-3.5 h-3.5" />
           <span>Sign Out</span>
