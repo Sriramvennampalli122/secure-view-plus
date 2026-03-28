@@ -62,7 +62,7 @@ const Sidebar = () => {
       {/* Search */}
       <div className="px-3 mb-2">
         <div className="relative">
-          <Search className="absolute left-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5" style={{ color: '#a78bfa' }} />
+          <Search className="absolute left-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5" style={{ color: '#c4b5fd' }} />
           <input
             type="text"
             placeholder="Search tools…"
@@ -80,15 +80,15 @@ const Sidebar = () => {
           onClick={() => navigate("/ip-agent")}
           className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-md text-xs font-medium transition-all"
           style={isActive("/ip-agent")
-            ? { background: '#7c3aed25', borderLeft: '3px solid #a78bfa', color: '#c4b5fd' }
-            : { color: '#a78bfa' }
+            ? { background: '#7c3aed25', borderLeft: '3px solid #a78bfa', color: '#f5f3ff' }
+            : { color: '#e9d5ff' }
           }
           onMouseEnter={(e) => { if (!isActive("/ip-agent")) e.currentTarget.style.background = '#2d1b6930'; }}
           onMouseLeave={(e) => { if (!isActive("/ip-agent")) e.currentTarget.style.background = ''; }}
         >
           <Bot className="w-4 h-4 shrink-0" />
           <span>IP Agent</span>
-          <span className="ml-auto text-[9px] px-1.5 py-0.5 rounded font-bold" style={{ background: '#4c1d9540', color: '#c4b5fd' }}>AI</span>
+          <span className="ml-auto text-[9px] px-1.5 py-0.5 rounded font-bold" style={{ background: '#4c1d9540', color: '#e9d5ff' }}>AI</span>
         </button>
       </div>
 
@@ -96,7 +96,7 @@ const Sidebar = () => {
 
       {/* Section label */}
       <div className="px-3 py-1">
-        <span className="text-[9px] font-semibold uppercase tracking-wider" style={{ color: '#6d28d9' }}>Core Tools</span>
+        <span className="text-[9px] font-semibold uppercase tracking-wider" style={{ color: '#a78bfa' }}>Core Tools</span>
       </div>
 
       {/* Core tools */}
@@ -106,8 +106,8 @@ const Sidebar = () => {
           onClick={() => navigate(item.path)}
           className="mx-2 flex items-center gap-2.5 px-2.5 py-1.5 rounded-md text-xs transition-all"
           style={isActive(item.path)
-            ? { background: '#7c3aed25', borderLeft: '3px solid #a78bfa', color: '#c4b5fd' }
-            : { color: '#a78bfa' }
+            ? { background: '#7c3aed25', borderLeft: '3px solid #a78bfa', color: '#f5f3ff' }
+            : { color: '#e9d5ff' }
           }
           onMouseEnter={(e) => { if (!isActive(item.path)) e.currentTarget.style.background = '#2d1b6930'; }}
           onMouseLeave={(e) => { if (!isActive(item.path)) e.currentTarget.style.background = ''; }}
@@ -121,7 +121,7 @@ const Sidebar = () => {
 
       {/* Section label */}
       <div className="px-3 py-1">
-        <span className="text-[9px] font-semibold uppercase tracking-wider" style={{ color: '#6d28d9' }}>Pages</span>
+        <span className="text-[9px] font-semibold uppercase tracking-wider" style={{ color: '#a78bfa' }}>Pages</span>
       </div>
 
       {/* Page navigation */}
@@ -131,8 +131,8 @@ const Sidebar = () => {
           onClick={() => navigate(item.path)}
           className="mx-2 flex items-center gap-2.5 px-2.5 py-1.5 rounded-md text-xs transition-all"
           style={isActive(item.path)
-            ? { background: '#7c3aed25', borderLeft: '3px solid #a78bfa', color: '#c4b5fd' }
-            : { color: '#a78bfa' }
+            ? { background: '#7c3aed25', borderLeft: '3px solid #a78bfa', color: '#f5f3ff' }
+            : { color: '#e9d5ff' }
           }
           onMouseEnter={(e) => { if (!isActive(item.path)) e.currentTarget.style.background = '#2d1b6930'; }}
           onMouseLeave={(e) => { if (!isActive(item.path)) e.currentTarget.style.background = ''; }}
@@ -146,7 +146,7 @@ const Sidebar = () => {
 
       {/* Section label */}
       <div className="px-3 py-1">
-        <span className="text-[9px] font-semibold uppercase tracking-wider" style={{ color: '#6d28d9' }}>Security Tools</span>
+        <span className="text-[9px] font-semibold uppercase tracking-wider" style={{ color: '#a78bfa' }}>Security Tools</span>
       </div>
 
       {/* Security tool categories */}
@@ -159,9 +159,9 @@ const Sidebar = () => {
             <button
               onClick={() => toggleCategory(cat.id)}
               className="mx-2 flex items-center gap-2.5 px-2.5 py-1.5 rounded-md text-xs w-[calc(100%-16px)] transition-all"
-              style={{ color: '#a78bfa' }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = '#2d1b6930'; e.currentTarget.style.color = '#c4b5fd'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = ''; e.currentTarget.style.color = '#a78bfa'; }}
+              style={{ color: '#e9d5ff' }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = '#2d1b6930'; e.currentTarget.style.color = '#f5f3ff'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = ''; e.currentTarget.style.color = '#e9d5ff'; }}
             >
               <CatIcon className="w-3.5 h-3.5 shrink-0 text-primary/70" />
               <span className="flex-1 text-left">{cat.label}</span>
@@ -178,11 +178,11 @@ const Sidebar = () => {
                     onClick={() => navigate(`/tool/${tool.id}`)}
                     className="flex items-center gap-2 px-2.5 py-1.5 text-[11px] rounded-md transition-colors"
                     style={isActive(`/tool/${tool.id}`)
-                      ? { background: '#7c3aed25', color: '#c4b5fd' }
-                      : { color: '#a78bfa' }
+                      ? { background: '#7c3aed25', color: '#f5f3ff' }
+                      : { color: '#e9d5ff' }
                     }
-                    onMouseEnter={(e) => { if (!isActive(`/tool/${tool.id}`)) { e.currentTarget.style.background = '#2d1b6930'; e.currentTarget.style.color = '#c4b5fd'; } }}
-                    onMouseLeave={(e) => { if (!isActive(`/tool/${tool.id}`)) { e.currentTarget.style.background = ''; e.currentTarget.style.color = '#a78bfa'; } }}
+                    onMouseEnter={(e) => { if (!isActive(`/tool/${tool.id}`)) { e.currentTarget.style.background = '#2d1b6930'; e.currentTarget.style.color = '#f5f3ff'; } }}
+                    onMouseLeave={(e) => { if (!isActive(`/tool/${tool.id}`)) { e.currentTarget.style.background = ''; e.currentTarget.style.color = '#e9d5ff'; } }}
                   >
                     <span
                       className={`w-1.5 h-1.5 rounded-full shrink-0 ${

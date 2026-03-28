@@ -22,7 +22,7 @@
     --secondary-foreground: 270 100% 98%;
 
     --muted: 263 50% 20%;
-    --muted-foreground: 263 50% 70%;
+    --muted-foreground: 263 60% 75%;
 
     --accent: 263 70% 58%;
     --accent-foreground: 270 100% 98%;
@@ -37,7 +37,7 @@
     --radius: 0.75rem;
 
     --sidebar-background: 260 60% 12%;
-    --sidebar-foreground: 263 50% 70%;
+    --sidebar-foreground: 270 60% 90%;
     --sidebar-primary: 263 70% 58%;
     --sidebar-primary-foreground: 270 100% 98%;
     --sidebar-accent: 260 50% 20%;
@@ -132,7 +132,7 @@
     @apply flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200;
     background: rgba(26, 15, 60, 0.5);
     backdrop-filter: blur(8px);
-    color: #c4b5fd;
+    color: #e9d5ff;
     border: 1px solid #4c1d9540;
   }
 
@@ -140,27 +140,28 @@
     background: rgba(45, 27, 105, 0.5);
     border-color: #7c3aed50;
     box-shadow: 0 0 20px #7c3aed50;
+    color: #f5f3ff;
   }
 
   .cyber-btn.active {
     background: #7c3aed25;
     border-color: #a78bfa;
-    color: #c4b5fd;
+    color: #ffffff;
     box-shadow: 0 0 20px #7c3aed50;
   }
 
   .cyber-sidebar-btn {
     @apply flex flex-col items-center gap-1 p-3 rounded-lg text-xs font-medium transition-all duration-200;
-    color: #a78bfa;
+    color: #e9d5ff;
   }
 
   .cyber-sidebar-btn:hover {
-    color: #c4b5fd;
+    color: #f5f3ff;
     background: #2d1b6930;
   }
 
   .cyber-sidebar-btn.active {
-    color: #c4b5fd;
+    color: #f5f3ff;
     background: #7c3aed25;
     box-shadow: 0 0 20px #7c3aed50;
   }
